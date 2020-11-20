@@ -24,6 +24,11 @@
      vim-cmd vmsvc/power.on vmid
    #+END_SRC
 
+** 关闭虚拟机
+   #+BEGIN_SRC sh
+     vim-cmd vmsvc/power.off vmid
+   #+END_SRC
+
 ** host 进入维护模式
    #+BEGIN_SRC sh
      vim-cmd hostsvc/maintenance_mode_enter
