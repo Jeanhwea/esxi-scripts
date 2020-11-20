@@ -33,3 +33,8 @@
    #+BEGIN_SRC sh
      vim-cmd hostsvc/maintenance_mode_exit
    #+END_SRC
+
+* crontab 来配置定时任务
+  #+BEGIN_SRC sh
+    vi /var/spool/cron/crontabs/root
+  #+END_SRC
