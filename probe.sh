@@ -6,19 +6,19 @@ TRY_INTERVAL=30
 FILETAG=$(date +'%Y%m%d')
 LOGFILE="$HERE/log/esxi.$FILETAG.log"
 
-function log_prefix() {
+log_prefix() {
   date +'%Y-%m-%d %H:%M:%S'
 }
 
-function list_vms() {
+list_vms() {
   vim-cmd vmsvc/getallvms | sed '1d;s/ .*$//'
 }
 
-function check_vm_state() {
+check_vm_state() {
   vim-cmd vmsvc/power.getstate $1 | grep 'Powered on'
 }
 
-function poweroff_vm() {
+poweroff_vm() {
   # echo "vim-cmd vmsvc/power.off $1" >> $LOGFILE
   echo "$(log_prefix) vim-cmd vmsvc/power.off $1" >> $LOGFILE
   if [ "$ONOFF" = "y" ]; then
@@ -26,7 +26,7 @@ function poweroff_vm() {
   fi
 }
 
-function test_heartbeats() {
+test_heartbeats() {
   ping -c 3 $HBIP > /dev/null 2>&1
   retval=$?
   echo "$(log_prefix) ping $HBIP" >> $LOGFILE
@@ -34,7 +34,7 @@ function test_heartbeats() {
 }
 
 
-function double_ping() {
+double_ping() {
   first_try=$(test_heartbeats)
   if [ $first_try -eq 0 ]; then
     echo 'alive'
