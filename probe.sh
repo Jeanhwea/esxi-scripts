@@ -2,6 +2,7 @@
 HERE=`cd $(dirname $0); pwd`
 HBIP=192.168.0.10
 ONOFF=y
+TRY_INTERVAL=30
 FILETAG=$(date +'%Y%m%d')
 LOGFILE="$HERE/log/esxi.$FILETAG.log"
 
@@ -26,14 +27,30 @@ function poweroff_vm() {
 }
 
 function test_heartbeats() {
-  ping -c 1 $HBIP > /dev/null
+  ping -c 3 $HBIP > /dev/null
   retval=$?
   echo $retval
 }
 
 
+function double_ping() {
+  first_try=$(test_heartbeats)
+  if [ $first_try -eq 0 ]; then
+    echo 'alive'
+  else
+    sleep $TRY_INTERVAL
+    second_try=$(test_heartbeats)
+    if [ $second_try -eq 0 ]; then
+      echo 'alive'
+    else
+      echo 'dead'
+    fi
+  fi
+}
+
+
 echo "$(log_prefix) start" >> $LOGFILE
-if [ $(test_heartbeats) -eq 0 ]; then
+if [ "$(double_ping)" == "alive" ]; then
   echo "$(log_prefix) $HBIP is alive" >> $LOGFILE
 else
   echo "$(log_prefix) $HBIP is dead" >> $LOGFILE
