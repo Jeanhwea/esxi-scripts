@@ -63,6 +63,7 @@ else
       sleep 1
     fi
   done
+  sleep 200
   poweroff
 fi
 echo "$(log_prefix) finish" >> $LOGFILE
