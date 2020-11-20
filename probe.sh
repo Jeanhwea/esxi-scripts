@@ -30,9 +30,9 @@ function test_heartbeats() {
 
 echo "$(log_prefix) start" >> $LOGFILE
 if [ $(test_heartbeats) -eq 0 ]; then
-  echo "$(log_prefix) $HBIP is alive"
+  echo "$(log_prefix) $HBIP is alive" >> $LOGFILE
 else
-  echo "$(log_prefix) $HBIP is dead"
+  echo "$(log_prefix) $HBIP is dead" >> $LOGFILE
   # do power off
   for vmid in $(list_vms); do
     power_state=$(check_vm_state $vmid)

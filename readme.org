@@ -34,8 +34,13 @@
      vim-cmd hostsvc/maintenance_mode_exit
    #+END_SRC
 
-* crontab 来配置定时任务
-  直接配置关闭任务
+* 配置 crontab  开机启动时自动添加
+  配置开机启动时直接插入到 crontab 脚本中
   #+BEGIN_SRC sh
-    vi /var/spool/cron/crontabs/root
+    vi /etc/rc.local.d/local.sh
+  #+END_SRC
+
+  添加的内容如下
+  #+BEGIN_SRC sh
+    /bin/echo '*/5  *    *   *   *   /esxi-scripts/probe.sh >/dev/null 2>&1' >> /var/spool/cron/crontabs/root
   #+END_SRC
