@@ -2,7 +2,7 @@
 HERE=`cd $(dirname $0); pwd`
 HBIP=192.168.0.10
 FILETAG=$(date +'%Y%m%d')
-LOGFILE="/tmp/esxi.log.$FILETAG"
+LOGFILE="$HERE/log/esxi.$FILETAG.log"
 
 function log_prefix() {
   date +'%Y-%m-%d %H:%M:%S'
