@@ -44,3 +44,8 @@
   #+BEGIN_SRC sh
     /bin/echo '*/5  *    *   *   *   /esxi-scripts/probe.sh >/dev/null 2>&1' >> /var/spool/cron/crontabs/root
   #+END_SRC
+
+* 重启 crontab
+  #+BEGIN_SRC sh
+    services.sh restart crond
+  #+END_SRC
