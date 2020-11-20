@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 HERE=`cd $(dirname $0); pwd`
 HBIP=192.168.0.10
+ONOFF=y
 FILETAG=$(date +'%Y%m%d')
 LOGFILE="$HERE/log/esxi.$FILETAG.log"
 
@@ -19,6 +20,9 @@ function check_vm_state() {
 function poweroff_vm() {
   # echo "vim-cmd vmsvc/power.off $1" >> $LOGFILE
   echo "$(log_prefix) vim-cmd vmsvc/power.off $1" >> $LOGFILE
+  if [ "$ONOFF" = "y" ]; then
+    vim-cmd vmsvc/power.off $1
+  fi
 }
 
 function test_heartbeats() {
