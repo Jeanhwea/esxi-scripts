@@ -22,15 +22,15 @@ log_prefix() {
   date +'%Y-%m-%d %H:%M:%S'
 }
 
-list_vms() {
+vm_list_vmids() {
   vim-cmd vmsvc/getallvms | sed '1d;s/ .*$//'
 }
 
-check_vm_state() {
+vm_check_state() {
   vim-cmd vmsvc/power.getstate $1 | grep 'Powered on'
 }
 
-shutdown_vm() {
+vm_shutdown() {
   # echo "vim-cmd vmsvc/power.off $1" >> $LOGFILE
   echo "$(log_prefix) vim-cmd vmsvc/power.off $1" >> $LOGFILE
   if [ "$ONOFF" = "y" ]; then
@@ -38,20 +38,20 @@ shutdown_vm() {
   fi
 }
 
-test_heartbeats() {
+vm_heartbeats() {
   ping -c 3 $HBIP > /dev/null 2>&1
   retval=$?
   echo "$(log_prefix) ping $HBIP" >> $LOGFILE
   echo $retval
 }
 
-double_ping() {
-  first_try=$(test_heartbeats)
+vm_double_ping() {
+  first_try=$(vm_heartbeats)
   if [ $first_try -eq 0 ]; then
     echo 'alive'
   else
     sleep $RETRY_SEC
-    second_try=$(test_heartbeats)
+    second_try=$(vm_heartbeats)
     if [ $second_try -eq 0 ]; then
       echo 'alive'
     else
@@ -63,17 +63,16 @@ double_ping() {
 ################################################################################
 # main
 ################################################################################
-
 echo "$(log_prefix) start" >> $LOGFILE
-if [ "$(double_ping)" == "alive" ]; then
+if [ "$(vm_double_ping)" == "alive" ]; then
   echo "$(log_prefix) $HBIP is alive" >> $LOGFILE
 else
   echo "$(log_prefix) $HBIP is dead" >> $LOGFILE
   # do power off
-  for vmid in $(list_vms); do
-    power_state=$(check_vm_state $vmid)
+  for vmid in $(vm_list_vmids); do
+    power_state=$(vm_check_state $vmid)
     if [ -n "$power_state" ]; then
-      shutdown_vm $vmid
+      vm_shutdown $vmid
       sleep 5
     fi
   done
