@@ -3,6 +3,11 @@
 #
 # 1. Change HBIP to your prefer
 # 2. Enable this script by set ONOFF to 'y'
+# 3. Add crontab task
+#    vi /etc/rc.local.d/local.sh
+# 4. Append this line to /etc/rc.local.d/local.sh
+#
+#    /bin/echo '*/5  *    *   *   *   /opt/esxi-scripts/probe.sh >/dev/null 2>&1' >> /var/spool/cron/crontabs/root
 #
 ################################################################################
 #
