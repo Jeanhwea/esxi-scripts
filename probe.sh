@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 HERE=`cd $(dirname $0); pwd`
 HBIP=192.168.0.10
-ONOFF=y
+ONOFF=n
 RETRY_SEC=30
 FILETAG=$(date +'%Y%m%d')
 LOGFILE="$HERE/log/esxi.$FILETAG.log"
