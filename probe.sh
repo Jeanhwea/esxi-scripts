@@ -29,6 +29,7 @@ function poweroff_vm() {
 function test_heartbeats() {
   ping -c 3 $HBIP > /dev/null
   retval=$?
+  echo "$(log_prefix) ping $HBIP" >> $LOGFILE
   echo $retval
 }
 
