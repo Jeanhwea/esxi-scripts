@@ -45,7 +45,6 @@ test_heartbeats() {
   echo $retval
 }
 
-
 double_ping() {
   first_try=$(test_heartbeats)
   if [ $first_try -eq 0 ]; then
@@ -61,6 +60,9 @@ double_ping() {
   fi
 }
 
+################################################################################
+# main
+################################################################################
 
 echo "$(log_prefix) start" >> $LOGFILE
 if [ "$(double_ping)" == "alive" ]; then
