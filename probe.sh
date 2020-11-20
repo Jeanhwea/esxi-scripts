@@ -2,7 +2,7 @@
 HERE=`cd $(dirname $0); pwd`
 HBIP=192.168.0.10
 ONOFF=y
-TRY_INTERVAL=30
+RETRY_SEC=30
 FILETAG=$(date +'%Y%m%d')
 LOGFILE="$HERE/log/esxi.$FILETAG.log"
 
@@ -39,7 +39,7 @@ double_ping() {
   if [ $first_try -eq 0 ]; then
     echo 'alive'
   else
-    sleep $TRY_INTERVAL
+    sleep $RETRY_SEC
     second_try=$(test_heartbeats)
     if [ $second_try -eq 0 ]; then
       echo 'alive'
@@ -60,7 +60,7 @@ else
     power_state=$(check_vm_state $vmid)
     if [ -n "$power_state" ]; then
       shutdown_vm $vmid
-      sleep 1
+      sleep 5
     fi
   done
   sleep 200
