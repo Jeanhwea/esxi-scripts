@@ -47,7 +47,7 @@
 
   添加的内容如下
   #+BEGIN_SRC sh
-    /bin/echo '*/5  *    *   *   *   /sbin/esxi-scripts/probe.sh >/dev/null 2>&1' >> /var/spool/cron/crontabs/root
+    /bin/echo '*/5  *    *   *   *   /vmfs/volumes/datastore200/esxi-scripts/probe.sh >/dev/null 2>&1' >> /var/spool/cron/crontabs/root
   #+END_SRC
 
 * 重启 crontab
