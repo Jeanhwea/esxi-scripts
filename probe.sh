@@ -6,7 +6,7 @@ FILETAG=$(date +'%Y%m%d.%H%M%S')
 LOGFILE="/tmp/esxi.log.$FILETAG"
 
 function log_prefix() {
-  date +'%Y%m%d %H%M%S: '
+  date +'%Y%m%d %H%M%S:'
 }
 
 function list_vms() {
