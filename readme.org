@@ -8,16 +8,6 @@
 #+TAGS: ESXi vsphere
 
 
-* vim-cmd 命令
-  ~vim-cmd~ 是 esxi 命令行，可在命令行下控制虚拟机的注册，启动等。 ~vim-cmd~ 是
-  构建在 host 进程之上的命令空间，允许最终用户调用几乎所有的 vSphere API。
-  ~vim-cmd~ 提供了一些 ESXi 子命令管理不同的虚拟基础设施，而且和 vimsh 相比，更容
-  易使用。
-
-* 常用参数
-  - vmsvc 与虚机相关的状态
-  - hostsvc 与 host 相关的状态
-
 * 参考命令实例
 ** 查看有哪些虚机
    #+BEGIN_SRC sh
