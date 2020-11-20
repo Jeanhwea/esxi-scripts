@@ -7,7 +7,7 @@
 #    vi /etc/rc.local.d/local.sh
 # 4. Append this line to /etc/rc.local.d/local.sh
 #
-#    /bin/echo '*/5  *    *   *   *   /opt/esxi-scripts/probe.sh >/dev/null 2>&1' >> /var/spool/cron/crontabs/root
+#    /bin/echo '*/5  *    *   *   *   /sbin/esxi-scripts/probe.sh >/dev/null 2>&1' >> /var/spool/cron/crontabs/root
 #
 ################################################################################
 #
