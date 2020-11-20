@@ -18,7 +18,7 @@ check_vm_state() {
   vim-cmd vmsvc/power.getstate $1 | grep 'Powered on'
 }
 
-poweroff_vm() {
+shutdown_vm() {
   # echo "vim-cmd vmsvc/power.off $1" >> $LOGFILE
   echo "$(log_prefix) vim-cmd vmsvc/power.off $1" >> $LOGFILE
   if [ "$ONOFF" = "y" ]; then
@@ -59,9 +59,10 @@ else
   for vmid in $(list_vms); do
     power_state=$(check_vm_state $vmid)
     if [ -n "$power_state" ]; then
-      poweroff_vm $vmid
+      shutdown_vm $vmid
       sleep 1
     fi
   done
+  poweroff
 fi
 echo "$(log_prefix) finish" >> $LOGFILE
