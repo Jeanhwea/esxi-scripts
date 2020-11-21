@@ -34,7 +34,6 @@ vm_check_state() {
 }
 
 vm_do_poweroff() {
-  # echo "vim-cmd vmsvc/power.off $1" >> $VM_LOG_FILE
   echo "$(log_prefix) vim-cmd vmsvc/power.off $1" >> $VM_LOG_FILE
   if [ "$VM_ONOFF_FLAG" = "y" ]; then
     vim-cmd vmsvc/power.off $1
@@ -42,7 +41,7 @@ vm_do_poweroff() {
 }
 
 vm_ping_gateway() {
-  ping -c 3 $VM_GATEWAY_IP > /dev/null 2>&1
+  ping -c 3 $VM_GATEWAY_IP >/dev/null 2>&1
   retval=$?
   echo "$(log_prefix) ping $VM_GATEWAY_IP" >> $VM_LOG_FILE
   echo $retval
