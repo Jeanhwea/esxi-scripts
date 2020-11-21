@@ -14,6 +14,7 @@
 HERE=`cd $(dirname $0); pwd`
 VM_GATEWAY_IP=192.168.0.10
 VM_ONOFF_FLAG=n
+VM_SHUTDOWN_HOST=n
 VM_RETRY_SEC=30
 VM_FILE_TAG=$(date +'%Y%m%d')
 VM_LOG_FILE="$HERE/log/esxi.$VM_FILE_TAG.log"
@@ -70,7 +71,8 @@ if [ "$(vm_double_ping)" == "alive" ]; then
   echo "$(log_prefix) $VM_GATEWAY_IP is alive" >> $VM_LOG_FILE
 else
   echo "$(log_prefix) $VM_GATEWAY_IP is dead" >> $VM_LOG_FILE
-  # do power off
+
+  # poweroff the machines that is on
   for vmid in $(vm_list_vmids); do
     power_state=$(vm_check_state $vmid)
     if [ -n "$power_state" ]; then
@@ -78,7 +80,11 @@ else
       sleep 5
     fi
   done
-  sleep 200
-  poweroff
+
+  # shutdown host machine if possible
+  if [ "$VM_SHUTDOWN_HOST" = "y" ]; then
+    sleep 200
+    poweroff
+  fi
 fi
 echo "$(log_prefix) finish" >> $VM_LOG_FILE
