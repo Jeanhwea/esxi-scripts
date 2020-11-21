@@ -2,7 +2,7 @@
 ################################################################################
 #
 # 1. Change HBIP to your prefer
-# 2. Enable this script by set ONOFF to 'y'
+# 2. Enable this script by set VM_ONOFF_FLAG to 'y'
 # 3. Add crontab task
 #    vi /etc/rc.local.d/local.sh
 # 4. Append this line to /etc/rc.local.d/local.sh
@@ -12,12 +12,15 @@
 ################################################################################
 #
 HERE=`cd $(dirname $0); pwd`
-HBIP=192.168.0.10
-ONOFF=n
-RETRY_SEC=30
-FILETAG=$(date +'%Y%m%d')
-LOGFILE="$HERE/log/esxi.$FILETAG.log"
+VM_GATEWAY_IP=192.168.0.10
+VM_ONOFF_FLAG=n
+VM_RETRY_SEC=30
+VM_FILE_TAG=$(date +'%Y%m%d')
+VM_LOG_FILE="$HERE/log/esxi.$VM_FILE_TAG.log"
 
+################################################################################
+# local function
+################################################################################
 log_prefix() {
   date +'%Y-%m-%d %H:%M:%S'
 }
@@ -30,28 +33,28 @@ vm_check_state() {
   vim-cmd vmsvc/power.getstate $1 | grep 'Powered on'
 }
 
-vm_shutdown() {
-  # echo "vim-cmd vmsvc/power.off $1" >> $LOGFILE
-  echo "$(log_prefix) vim-cmd vmsvc/power.off $1" >> $LOGFILE
-  if [ "$ONOFF" = "y" ]; then
+vm_do_poweroff() {
+  # echo "vim-cmd vmsvc/power.off $1" >> $VM_LOG_FILE
+  echo "$(log_prefix) vim-cmd vmsvc/power.off $1" >> $VM_LOG_FILE
+  if [ "$VM_ONOFF_FLAG" = "y" ]; then
     vim-cmd vmsvc/power.off $1
   fi
 }
 
-vm_heartbeats() {
-  ping -c 3 $HBIP > /dev/null 2>&1
+vm_ping_gateway() {
+  ping -c 3 $VM_GATEWAY_IP > /dev/null 2>&1
   retval=$?
-  echo "$(log_prefix) ping $HBIP" >> $LOGFILE
+  echo "$(log_prefix) ping $VM_GATEWAY_IP" >> $VM_LOG_FILE
   echo $retval
 }
 
 vm_double_ping() {
-  first_try=$(vm_heartbeats)
+  first_try=$(vm_ping_gateway)
   if [ $first_try -eq 0 ]; then
     echo 'alive'
   else
-    sleep $RETRY_SEC
-    second_try=$(vm_heartbeats)
+    sleep $VM_RETRY_SEC
+    second_try=$(vm_ping_gateway)
     if [ $second_try -eq 0 ]; then
       echo 'alive'
     else
@@ -61,22 +64,22 @@ vm_double_ping() {
 }
 
 ################################################################################
-# main
+# entry
 ################################################################################
-echo "$(log_prefix) start" >> $LOGFILE
+echo "$(log_prefix) start" >> $VM_LOG_FILE
 if [ "$(vm_double_ping)" == "alive" ]; then
-  echo "$(log_prefix) $HBIP is alive" >> $LOGFILE
+  echo "$(log_prefix) $VM_GATEWAY_IP is alive" >> $VM_LOG_FILE
 else
-  echo "$(log_prefix) $HBIP is dead" >> $LOGFILE
+  echo "$(log_prefix) $VM_GATEWAY_IP is dead" >> $VM_LOG_FILE
   # do power off
   for vmid in $(vm_list_vmids); do
     power_state=$(vm_check_state $vmid)
     if [ -n "$power_state" ]; then
-      vm_shutdown $vmid
+      vm_do_poweroff $vmid
       sleep 5
     fi
   done
   sleep 200
   poweroff
 fi
-echo "$(log_prefix) finish" >> $LOGFILE
+echo "$(log_prefix) finish" >> $VM_LOG_FILE
