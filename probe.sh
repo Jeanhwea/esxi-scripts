@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 ################################################################################
 #
-# 1. Change HBIP to your prefer
+# 1. Change VM_GATEWAY_IP to your prefer gateway ip as heartbeats
 # 2. Enable set VM_ONOFF_FLAG to 'y', poweroff the virtual machines.
 # 3. Enable set VM_SHUTDOWN_HOST to 'y', also poweroff the host.  (optional)
 # 4. Add crontab task
