@@ -2,10 +2,11 @@
 ################################################################################
 #
 # 1. Change HBIP to your prefer
-# 2. Enable this script by set VM_ONOFF_FLAG to 'y'
-# 3. Add crontab task
+# 2. Enable set VM_ONOFF_FLAG to 'y', poweroff the virtual machines.
+# 3. Enable set VM_SHUTDOWN_HOST to 'y', also poweroff the host.  (optional)
+# 4. Add crontab task
 #    vi /etc/rc.local.d/local.sh
-# 4. Append this line to /etc/rc.local.d/local.sh
+# 5. Append this line to /etc/rc.local.d/local.sh
 #
 #    /bin/echo '*/5  *    *   *   *   /vmfs/volumes/datastore200/esxi-scripts/probe.sh >/dev/null 2>&1' >> /var/spool/cron/crontabs/root
 #
