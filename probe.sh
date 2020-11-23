@@ -27,15 +27,11 @@ log_prefix() {
   date +'%Y-%m-%d %H:%M:%S'
 }
 
-<<<<<<< HEAD
 vm_localtime() {
   date -d @$(expr 28800000 + $(date +'%s')) +'%Y-%m-%d %H:%M:%S'
 }
 
-list_vms() {
-=======
 vm_list_vmids() {
->>>>>>> 309e1f892162700f15eb8f28e3bc107e75851070
   vim-cmd vmsvc/getallvms | sed '1d;s/ .*$//'
 }
 
