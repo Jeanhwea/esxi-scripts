@@ -2,8 +2,8 @@
 ################################################################################
 #
 # 1. Change VM_GATEWAY_IP to your prefer gateway ip as heartbeats
-# 2. Enable set VM_ONOFF_FLAG to 'y', poweroff the virtual machines.
-# 3. Enable set VM_SHUTDOWN_HOST to 'y', also poweroff the host.  (optional)
+# 2. Set VM_ONOFF_FLAG=y to enable poweroff the virtual machines.
+# 3. Set VM_SHUTDOWN_HOST=y to enable poweroff the host at the same time. (optional)
 # 4. Add crontab task
 #    vi /etc/rc.local.d/local.sh
 # 5. Append this line to /etc/rc.local.d/local.sh
