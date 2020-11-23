@@ -78,7 +78,7 @@ vm_double_ping() {
 ################################################################################
 # entry
 ################################################################################
-echo "$(vm_log) start" >> $VM_LOG_FILE
+echo "$(vm_log) start script[$0]" >> $VM_LOG_FILE
 if [ "$(vm_double_ping)" == "alive" ]; then
   echo "$(vm_log) $VM_GATEWAY_IP is alive" >> $VM_LOG_FILE
 else
@@ -99,4 +99,4 @@ else
     poweroff
   fi
 fi
-echo "$(vm_log) finish" >> $VM_LOG_FILE
+echo "$(vm_log) finish script[$0]" >> $VM_LOG_FILE
