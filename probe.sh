@@ -84,11 +84,7 @@ vm_double_ping() {
 # entry
 ################################################################################
 echo "$(vm_log) start $0" >> $VM_LOG_FILE
-if [ "$(vm_double_ping)" == "alive" ]; then
-  echo "$(vm_log) $VM_GATEWAY_IP is alive" >> $VM_LOG_FILE
-else
-  echo "$(vm_log) $VM_GATEWAY_IP is dead" >> $VM_LOG_FILE
-
+if [ "$(vm_double_ping)" == "dead" ]; then
   # poweroff the machines that is on
   for vmid in $(vm_list_vmids); do
     power_state=$(vm_check_state $vmid)
