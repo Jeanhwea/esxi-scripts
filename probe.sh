@@ -55,9 +55,9 @@ vm_do_poweroff() {
 
 vm_ping_gateway() {
   ping -c 3 $VM_GATEWAY_IP >/dev/null 2>&1
-  retval=$?
-  echo "$(vm_log) ping $VM_GATEWAY_IP" >> $VM_LOG_FILE
-  echo $retval
+  ping_resp=$?
+  echo "$(vm_log) ping $VM_GATEWAY_IP, Get ping_resp=$?" >> $VM_LOG_FILE
+  echo $ping_resp
 }
 
 vm_double_ping() {
