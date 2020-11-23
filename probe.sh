@@ -100,3 +100,4 @@ else
   fi
 fi
 echo "$(vm_log) finish script[$0]" >> $VM_LOG_FILE
+echo "" >> $VM_LOG_FILE
