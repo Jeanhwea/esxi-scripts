@@ -17,20 +17,27 @@ VM_GATEWAY_IP=192.168.0.10
 VM_ONOFF_FLAG=n
 VM_SHUTDOWN_HOST=n
 VM_RETRY_SEC=30
-VM_FILE_TAG=$(date +'%Y%m%d')
+#
+################################################################################
+
+
+################################################################################
+# helper
+################################################################################
+vm_local_date() {
+  date -d @$(expr 28800000 + $(date +'%s')) $@
+}
+
+vm_log() {
+  vm_local_date +'%Y-%m-%d %H:%M:%S'
+}
+
+VM_FILE_TAG=$(vm_local_date +'%Y%m%d')
 VM_LOG_FILE="$HERE/log/esxi.$VM_FILE_TAG.log"
 
 ################################################################################
 # local function
 ################################################################################
-log_prefix() {
-  date +'%Y-%m-%d %H:%M:%S'
-}
-
-vm_localtime() {
-  date -d @$(expr 28800000 + $(date +'%s')) +'%Y-%m-%d %H:%M:%S'
-}
-
 vm_list_vmids() {
   vim-cmd vmsvc/getallvms | sed '1d;s/ .*$//'
 }
@@ -40,7 +47,7 @@ vm_check_state() {
 }
 
 vm_do_poweroff() {
-  echo "$(log_prefix) vim-cmd vmsvc/power.off $1" >> $VM_LOG_FILE
+  echo "$(vm_log) vim-cmd vmsvc/power.off $1" >> $VM_LOG_FILE
   if [ "$VM_ONOFF_FLAG" = "y" ]; then
     vim-cmd vmsvc/power.off $1
   fi
@@ -49,7 +56,7 @@ vm_do_poweroff() {
 vm_ping_gateway() {
   ping -c 3 $VM_GATEWAY_IP >/dev/null 2>&1
   retval=$?
-  echo "$(log_prefix) ping $VM_GATEWAY_IP" >> $VM_LOG_FILE
+  echo "$(vm_log) ping $VM_GATEWAY_IP" >> $VM_LOG_FILE
   echo $retval
 }
 
@@ -71,11 +78,11 @@ vm_double_ping() {
 ################################################################################
 # entry
 ################################################################################
-echo "$(log_prefix) start" >> $VM_LOG_FILE
+echo "$(vm_log) start" >> $VM_LOG_FILE
 if [ "$(vm_double_ping)" == "alive" ]; then
-  echo "$(log_prefix) $VM_GATEWAY_IP is alive" >> $VM_LOG_FILE
+  echo "$(vm_log) $VM_GATEWAY_IP is alive" >> $VM_LOG_FILE
 else
-  echo "$(log_prefix) $VM_GATEWAY_IP is dead" >> $VM_LOG_FILE
+  echo "$(vm_log) $VM_GATEWAY_IP is dead" >> $VM_LOG_FILE
 
   # poweroff the machines that is on
   for vmid in $(vm_list_vmids); do
@@ -92,4 +99,4 @@ else
     poweroff
   fi
 fi
-echo "$(log_prefix) finish" >> $VM_LOG_FILE
+echo "$(vm_log) finish" >> $VM_LOG_FILE
