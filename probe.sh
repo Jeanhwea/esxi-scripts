@@ -55,19 +55,24 @@ vm_do_poweroff() {
 
 vm_ping_gateway() {
   ping -c 3 $VM_GATEWAY_IP >/dev/null 2>&1
-  ping_resp=$?
-  echo "$(vm_log) ping $VM_GATEWAY_IP, Get ping_resp=$?" >> $VM_LOG_FILE
+  ping_retval=$?
+  if [ $ping_retval -eq 0 ]; then
+    ping_resp='alive'
+  else
+    ping_resp='dead'
+  fi
+  echo "$(vm_log) ping $VM_GATEWAY_IP, $ping_resp" >> $VM_LOG_FILE
   echo $ping_resp
 }
 
 vm_double_ping() {
   first_try=$(vm_ping_gateway)
-  if [ $first_try -eq 0 ]; then
+  if [ "$first_try" == "alive" ]; then
     echo 'alive'
   else
     sleep $VM_RETRY_SEC
     second_try=$(vm_ping_gateway)
-    if [ $second_try -eq 0 ]; then
+    if [ "$second_try" == "alive" ]; then
       echo 'alive'
     else
       echo 'dead'
