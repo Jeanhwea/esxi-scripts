@@ -43,7 +43,7 @@ vm_list_vmids() {
 }
 
 vm_check_state() {
-  vim-cmd vmsvc/power.getstate $1 | grep 'Powered on'
+  vim-cmd vmsvc/power.getstate $1 | grep -i 'Powered on'
 }
 
 vm_do_poweroff() {
