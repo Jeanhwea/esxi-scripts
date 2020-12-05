@@ -3,9 +3,9 @@
 #
 # 1. Change VM_GATEWAY_IP to your prefer gateway ip as heartbeats
 # 2. Set VM_ONOFF_FLAG=y to enable poweroff the virtual machines.
-# 4. Add crontab task
+# 3. Add crontab task
 #    vi /etc/rc.local.d/local.sh
-# 5. Append this line to /etc/rc.local.d/local.sh
+# 4. Append this line to /etc/rc.local.d/local.sh
 #
 #    /bin/echo '*/5  *    *   *   *   /vmfs/volumes/datastore200/esxi-scripts/probe.sh >/dev/null 2>&1' >> /var/spool/cron/crontabs/root
 #
