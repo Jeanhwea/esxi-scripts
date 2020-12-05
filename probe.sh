@@ -47,7 +47,7 @@ vm_check_state() {
   vim-cmd vmsvc/power.getstate $1 | grep -i 'Powered on'
 }
 
-vm_do_poweroff_vm() {
+vm_do_poweroff_client() {
   if [ "$VM_SHUTDOWN_CLIENT" = "y" ]; then
     echo "$(vm_log) vim-cmd vmsvc/power.off $1" >> $VM_LOG_FILE
     vim-cmd vmsvc/power.off $1
@@ -100,13 +100,13 @@ if [ "$(vm_double_ping)" == "dead" ]; then
       power_state=$(vm_check_state $vmid)
       if [ -n "$power_state" ]; then
         sleep 5
-        vm_do_poweroff_vm $vmid
+        vm_do_poweroff_client $vmid
       fi
     done
 
     # Part 2: shutdown host machine if possible
     sleep 200
-    vm_do_poweroff_vm
+    vm_do_poweroff_host
   fi
 fi
 echo "$(vm_log) finish $0" >> $VM_LOG_FILE
